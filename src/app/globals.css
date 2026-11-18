@@ -1,0 +1,191 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --surface-subtle: #fafafa;
+  --surface-card: #ffffff;
+  --foreground: #09090b;
+  --foreground-muted: #52525b;
+  --border-subtle: #e4e4e7;
+  --brand-ink: #09090b;
+  --brand-money: #059669;
+  --brand-money-soft: #ecfdf5;
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-plus-jakarta), var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  color-scheme: light;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background-color: #d1fae5;
+  color: #064e3b;
+}
+
+/* Native FAQ accordion: smooth open with interpolate-size where supported */
+:root {
+  interpolate-size: allow-keywords;
+}
+
+details.faq-item::details-content {
+  block-size: 0;
+  overflow: hidden;
+  transition: block-size 260ms var(--ease-out), content-visibility 260ms allow-discrete;
+}
+
+details.faq-item[open]::details-content {
+  block-size: auto;
+}
+
+details.faq-item summary::-webkit-details-marker {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  details.faq-item::details-content {
+    transition: none;
+  }
+}
+
+/* Browser surfaces: refined scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #fafafa;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #d4d4d8;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a1a1aa;
+}
+
+/* Numeric alignment for COP prices and appointment hours */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Choreograph: one-shot hero entrance with shrinking gaps (Lead → Support → Decoration) */
+@keyframes hero-enter {
+  from {
+    opacity: 0;
+    transform: translateY(var(--enter-y, 14px));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-enter {
+  animation: hero-enter 620ms var(--ease-out) both;
+  animation-delay: var(--delay, 0ms);
+}
+
+.hero-enter-fade {
+  --enter-y: 0px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-enter {
+    animation: none;
+  }
+}
+
+/* Apple-design & Emil-design-eng: instant press feedback on pointer down */
+.pressable {
+  transition: transform 120ms var(--ease-out), background-color 150ms ease, border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.pressable:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+/* Modern Web Guidance: native <dialog> scroll containment without body overflow locks */
+dialog:modal {
+  overscroll-behavior: contain;
+  margin: auto;
+}
+
+dialog::backdrop {
+  background-color: rgba(15, 23, 42, 0.45);
+  backdrop-filter: blur(4px);
+  overflow: hidden;
+  overscroll-behavior: contain;
+}
+
+@media (max-width: 640px) {
+  dialog.sheet-dialog {
+    margin: auto 0 0 0;
+    max-width: 100%;
+    width: 100%;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+}
+
+/* Dialog entrance with @starting-style */
+dialog[open] {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  transition:
+    opacity 220ms var(--ease-drawer),
+    transform 260ms var(--ease-drawer),
+    display 260ms allow-discrete,
+    overlay 260ms allow-discrete;
+}
+
+@starting-style {
+  dialog[open] {
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+  }
+}
+
+/* Accessible visually-hidden utility */
+.visually-hidden {
+  position: absolute;
+  clip-path: inset(50%);
+  overflow: hidden;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  white-space: nowrap;
+}
+
+/* Form controls: minimum 16px on mobile to avoid iOS Safari auto-zoom */
+input,
+select,
+textarea {
+  font-size: max(1rem, 1em);
+}
